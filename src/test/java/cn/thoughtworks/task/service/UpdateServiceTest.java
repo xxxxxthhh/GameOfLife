@@ -8,7 +8,7 @@ import org.junit.Test;
 
 public class UpdateServiceTest {
 
-    UpdateService updateService = new UpdateService();
+    private UpdateService updateService = new UpdateService();
     @Test
     public void shouldGetNeighborCount() {
 
@@ -43,5 +43,34 @@ public class UpdateServiceTest {
         Assert.assertTrue(status1);
         Assert.assertFalse(status2);
         Assert.assertFalse(status3);
+    }
+
+    @Test
+    public void shouldGetNextMatrix() {
+        Matrix matrix = new Matrix(3,3);
+        Cell[][] cells = matrix.getMatrix();
+        cells[0][0].setAlive(true);
+        cells[0][1].setAlive(true);
+        cells[0][2].setAlive(true);
+
+        Cell[][] shoudbeMatrix = new Cell[3][3];
+        for (int i=0; i<3; i++){
+            for (int j=0; j<3; j++){
+                shoudbeMatrix[i][j] = new Cell(false);
+            }
+        }
+        shoudbeMatrix[0][1].setAlive(true);
+        shoudbeMatrix[1][1].setAlive(true);
+
+        Cell[][] newMatrxi = updateService.nextMatrix(matrix);
+
+        for (int i=0; i<3; i++){
+            for (int j=0; j<3; j++){
+                System.out.println(shoudbeMatrix[i][j].isAlive());
+                System.out.println(" ");
+                Assert.assertEquals(shoudbeMatrix[i][j].isAlive(), newMatrxi[i][j].isAlive());
+            }
+            System.out.println("\n");
+        }
     }
 }
