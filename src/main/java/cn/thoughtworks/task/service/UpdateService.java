@@ -41,7 +41,7 @@ public class UpdateService {
         return num;
     }
 
-    private boolean nextGenerationStatus(int x, int y, Matrix matrix) {
+    public boolean nextGenerationStatus(int x, int y, Matrix matrix) {
         int count = this.getAliveNeighborNumber(matrix, x, y);
         if (count == 3)
             return true;

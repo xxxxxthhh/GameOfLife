@@ -9,6 +9,7 @@ import org.junit.Test;
 public class UpdateServiceTest {
 
     private UpdateService updateService = new UpdateService();
+
     @Test
     public void shouldGetNeighborCount() {
 
@@ -29,16 +30,16 @@ public class UpdateServiceTest {
     }
 
     @Test
-    public void shouldGetPointStatus(){
+    public void shouldGetPointStatus() {
         Matrix matrix = new Matrix(3,3);
         Cell[][] cells = matrix.getMatrix();
         cells[0][0].setAlive(true);
         cells[0][1].setAlive(true);
         cells[0][2].setAlive(true);
 
-        boolean status1 = updateService.nextGenerrationStatus(1,1,matrix);
-        boolean status2 = updateService.nextGenerrationStatus(2,1,matrix);
-        boolean status3 = updateService.nextGenerrationStatus(0,0,matrix);
+        boolean status1 = updateService.nextGenerationStatus(1,1,matrix);
+        boolean status2 = updateService.nextGenerationStatus(2,1,matrix);
+        boolean status3 = updateService.nextGenerationStatus(0,0,matrix);
 
         Assert.assertTrue(status1);
         Assert.assertFalse(status2);
