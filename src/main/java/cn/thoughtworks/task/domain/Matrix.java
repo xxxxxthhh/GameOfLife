@@ -1,5 +1,7 @@
 package cn.thoughtworks.task.domain;
 
+import cn.thoughtworks.task.util.CellUtil;
+
 public class Matrix {
     private int rows;
     private int cols;
@@ -9,12 +11,13 @@ public class Matrix {
     public Matrix(int rows, int cols) {
         this.rows = rows;
         this.cols = cols;
-        matrix = new Cell[rows][cols];
-        for(int i=0; i < rows; i++){
-            for (int j=0; j < cols; j++){
-                matrix[i][j] = new Cell(false);
-            }
-        }
+        matrix = CellUtil.create(rows, cols);
+//        matrix = new Cell[rows][cols];
+//        for(int i=0; i < rows; i++){
+//            for (int j=0; j < cols; j++){
+//                matrix[i][j] = new Cell(false);
+//            }
+//        }
     }
 
     public Cell getCell(int x, int y) {
