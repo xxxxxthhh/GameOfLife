@@ -10,6 +10,11 @@ public class Matrix {
         this.rows = rows;
         this.cols = cols;
         matrix = new Cell[rows][cols];
+        for(int i=0; i < rows; i++){
+            for (int j=0; j < cols; j++){
+                matrix[i][j] = new Cell(false);
+            }
+        }
     }
 
     public Cell getCell(int x, int y) {
@@ -30,5 +35,13 @@ public class Matrix {
 
     public void setCols(int cols) {
         this.cols = cols;
+    }
+
+    public void setMatrix(Cell[][] matrix) {
+        this.matrix = matrix;
+    }
+
+    public Cell[][] getMatrix() {
+        return matrix;
     }
 }
