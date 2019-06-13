@@ -23,9 +23,14 @@ public class UpdateService {
         if (y + 1 < cols && matrix.getCell(x, y + 1).isAlive()) {
             num += 1;
         }
-        if (x + 1 > rows && y > 0 && matrix.getCell(x + 1, y - 1).isAlive()) {
+//        if (x + 1 > rows && y > 0 && matrix.getCell(x + 1, y - 1).isAlive()) {
+//            num += 1;
+//        }
+        if (x + 1 < rows && y > 0 && matrix.getCell(x + 1, y - 1).isAlive()) {
             num += 1;
         }
+
+
         if (x > 0 && y > 0 && matrix.getCell(x - 1, y - 1).isAlive()) {
             num += 1;
         }
@@ -62,4 +67,5 @@ public class UpdateService {
         }
         return newMatrix;
     }
+
 }

@@ -10,9 +10,11 @@ public class DisplayService {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 if (matrix.getCell(i, j).isAlive()) {
-                    System.out.print("*");
+//                    System.out.print("* ");
+                    System.out.print("\033[41;32;4m" + "  " + "\033[0m");
                 } else {
-                    System.out.print("-");
+//                    System.out.print("- ");
+                    System.out.print("\033[47;4m" + "  " + "\033[0m");
                 }
             }
             System.out.println();

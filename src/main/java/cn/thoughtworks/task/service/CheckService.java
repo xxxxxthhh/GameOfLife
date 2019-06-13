@@ -19,7 +19,7 @@ public class CheckService {
 
 
     //TODO
-    public String checkCommand(int rows,int cols,String command) {
+    public String checkCommand(int rows, int cols, String command) {
         String[] points = command.split(";");
         if (points.length == 0) {
             return ErrorMessage.INVALID_INPUT.getMsg();
@@ -27,16 +27,18 @@ public class CheckService {
 
         for (int i = 0; i < points.length; i++) {
             String[] point = points[i].split(",");
-            if ( point.length == 0 || point.length != 2){
+            if (point.length == 0 || point.length != 2) {
                 return ErrorMessage.INVALID_INPUT.getMsg();
             }
-            if (NumberUtil.isNumeric(point[0]) && NumberUtil.isNumeric(point[1])){
-                if (Integer.valueOf(point[0])>=rows){
-                    return ErrorMessage.OUT_OF_RANGE.getMsg();
-                }
-                if (Integer.valueOf(point[1])>=cols){
-                    return ErrorMessage.OUT_OF_RANGE.getMsg();
-                }
+
+            if (!NumberUtil.isNumeric(point[0]) || !NumberUtil.isNumeric(point[1]))
+                return ErrorMessage.INVALID_INPUT.getMsg();
+
+            if (Integer.valueOf(point[0]) >= rows) {
+                return ErrorMessage.OUT_OF_RANGE.getMsg();
+            }
+            if (Integer.valueOf(point[1]) >= cols) {
+                return ErrorMessage.OUT_OF_RANGE.getMsg();
             }
         }
 
@@ -50,9 +52,8 @@ public class CheckService {
 //        }
 
 
-
         return null;
-        }
+    }
 
 }
 

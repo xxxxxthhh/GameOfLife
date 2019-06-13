@@ -50,9 +50,11 @@ public class CheckServiceTest {
     public void shouldGetInvalidInputWithCommand() {
         int rows = 3;
         int cols = 3;
-        String command = "0,0;3@,1;2,2";
+       // String command = "0,0;3@,1;2,2";
+        String command = "asdadasfasfas";
 
         System.out.println(checkService.checkCommand(rows, cols, command));
-        Assert.assertEquals(ErrorMessage.INVALID_INPUT, checkService.checkCommand(rows, cols, command));
+        Assert.assertEquals(ErrorMessage.INVALID_INPUT.getMsg(), checkService.checkCommand(rows, cols, command));
     }
+
 }
