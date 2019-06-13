@@ -2,9 +2,12 @@ package cn.thoughtworks.task;
 
 import cn.thoughtworks.task.domain.Cell;
 import cn.thoughtworks.task.domain.Matrix;
+import cn.thoughtworks.task.domain.Params;
 import cn.thoughtworks.task.factory.MatrixFactory;
 import cn.thoughtworks.task.service.DisplayService;
+import cn.thoughtworks.task.service.InputService;
 import cn.thoughtworks.task.service.UpdateService;
+import jdk.internal.util.xml.impl.Input;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -18,68 +21,23 @@ import java.util.Scanner;
 
 public class TaskApplication {
 
-    volatile static  int speed = 1000;
+    volatile static Integer speed = 1000;
 
     public static void main(String[] args) {
-        Process process = null;
         DisplayService displayService = new DisplayService();
-        UpdateService updateService = new UpdateService();
-        ArrayList<String> input = new ArrayList<>();
-
-        System.out.print("初始文件路径：");
+        InputService inputService = new InputService();
         Scanner scanner = new Scanner(System.in);
-        String path = scanner.nextLine();
-        System.out.println(path);
-        try {
-            File file = new File(path);
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-            for (int i = 0; i < 3; i++) {
-                input.add(bufferedReader.readLine());
-            }
-        } catch (IOException e){
-            e.printStackTrace();
-            System.out.println("文件路径错误。");
-        }
-        String[] size = input.get(0).split(" ");
-        String rows = size[0];
-        String cols = size[1];
-        String command = input.get(1);
-        String sppedStr = input.get(2);
+        ArrayList<String> input = inputService.initInput(scanner);
+        Params params = inputService.parseInput(input);
+        Matrix matrix = new MatrixFactory().create(params.getRows(), params.getCols(), params.getCommand());
+        if (matrix == null)
+            System.exit(0);
+        speed = Integer.valueOf(params.getSpeed());
 
-        Matrix matrix = new MatrixFactory().create(rows, cols, command);
-        speed = Integer.valueOf(sppedStr);
+        displayService.setSpeed(speed);
 
-        new Thread(){
-            public void run() {
-                while (scanner.hasNext()){
-                    String ins = scanner.next();
-                    if (ins.equals("q"))
-                        System.exit(0);
-                    if (ins.equals("w"))
-                        speed += 300;
-                    else if (ins.equals("s"))
-                        speed = speed - 300 < 100 ? 100 : speed - 300;
-                }
-            }
-        }.start();
-
-        for (int i = 0; i < 100; i++) {
-            displayService.display(matrix);
-            System.out.println(speed);
-            matrix.setMatrix(updateService.nextMatrix(matrix));
-            try {
-                Thread.currentThread().sleep(speed);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            clearScreen();
-        }
-
+        displayService.loopPrint(matrix, scanner);
     }
 
-    public static void clearScreen() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-    }
 
 }

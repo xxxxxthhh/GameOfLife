@@ -18,7 +18,6 @@ public class CheckService {
     }
 
 
-    //TODO
     public String checkCommand(int rows, int cols, String command) {
         String[] points = command.split(";");
         if (points.length == 0) {
@@ -41,16 +40,6 @@ public class CheckService {
                 return ErrorMessage.OUT_OF_RANGE.getMsg();
             }
         }
-
-//        Pattern pattern = Pattern.compile("");
-//
-//        for (int i = 0; i < point.length; i++) {
-//            Matcher isLocation = pattern.matcher(point[i]); // matcher是全匹配
-//            if (!isLocation.matches()) {
-//                return ErrorMessage.INVALID_INPUT.getMsg();
-//            }
-//        }
-
 
         return null;
     }
