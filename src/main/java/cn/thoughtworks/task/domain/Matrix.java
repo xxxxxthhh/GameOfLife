@@ -12,12 +12,6 @@ public class Matrix {
         this.rows = rows;
         this.cols = cols;
         matrix = CellUtil.create(rows, cols);
-//        matrix = new Cell[rows][cols];
-//        for(int i=0; i < rows; i++){
-//            for (int j=0; j < cols; j++){
-//                matrix[i][j] = new Cell(false);
-//            }
-//        }
     }
 
     public Cell getCell(int x, int y) {

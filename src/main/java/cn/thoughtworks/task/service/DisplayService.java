@@ -5,6 +5,9 @@ import cn.thoughtworks.task.domain.Matrix;
 import java.util.Scanner;
 
 public class DisplayService {
+    private static final String ALIVE_CELL_COLOR = "\033[41;32;4m" + "  " + "\033[0m";
+    private static final String BACKGROUND_COLOR = "\033[47;4m" + "  " + "\033[0m";
+    private static final String CLEAR_SCREEN_COMMAND = "\033[H\033[2J";
     volatile int speed = 1000;
 
     public void display(Matrix matrix) {
@@ -14,9 +17,9 @@ public class DisplayService {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 if (matrix.getCell(i, j).isAlive()) {
-                    System.out.print("\033[41;32;4m" + "  " + "\033[0m");
+                    System.out.print(ALIVE_CELL_COLOR);
                 } else {
-                    System.out.print("\033[47;4m" + "  " + "\033[0m");
+                    System.out.print(BACKGROUND_COLOR);
                 }
             }
             System.out.println();
@@ -38,7 +41,8 @@ public class DisplayService {
                     speed = speed - 300 < 100 ? 100 : speed - 300;
             }
         }).start();
-        for (;;) {
+
+        while (true) {
             displayService.display(matrix);
             System.out.println(speed);
             matrix.setMatrix(updateService.nextMatrix(matrix));
@@ -52,7 +56,7 @@ public class DisplayService {
     }
 
     private void clearScreen() {
-        System.out.print("\033[H\033[2J");
+        System.out.print(CLEAR_SCREEN_COMMAND);
         System.out.flush();
     }
 

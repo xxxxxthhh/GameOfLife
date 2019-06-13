@@ -2,11 +2,6 @@ package cn.thoughtworks.task.service;
 
 import cn.thoughtworks.task.error.ErrorMessage;
 import cn.thoughtworks.task.util.NumberUtil;
-import com.sun.tools.internal.xjc.ErrorReceiver;
-
-import java.math.BigDecimal;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class CheckService {
     public String checkSize(String rows, String cols) {
@@ -17,6 +12,9 @@ public class CheckService {
         }
     }
 
+    public static boolean ifIn(int x, int low, int high){
+        return x >= low && x < high;
+    }
 
     public String checkCommand(int rows, int cols, String command) {
         String[] points = command.split(";");
@@ -24,24 +22,36 @@ public class CheckService {
             return ErrorMessage.INVALID_INPUT.getMsg();
         }
 
-        for (int i = 0; i < points.length; i++) {
-            String[] point = points[i].split(",");
-            if (point.length == 0 || point.length != 2) {
+        for (String point1 : points) {
+            String[] point = point1.split(",");
+            if (isInitialAliveCellInvalid(point)) {
                 return ErrorMessage.INVALID_INPUT.getMsg();
             }
 
-            if (!NumberUtil.isNumeric(point[0]) || !NumberUtil.isNumeric(point[1]))
+            if (isCellNotNumber(point))
                 return ErrorMessage.INVALID_INPUT.getMsg();
 
-            if (Integer.valueOf(point[0]) >= rows) {
+            if (isCellOverFlow(rows, 0, point)) {
                 return ErrorMessage.OUT_OF_RANGE.getMsg();
             }
-            if (Integer.valueOf(point[1]) >= cols) {
+            if (isCellOverFlow(cols, 1, point)) {
                 return ErrorMessage.OUT_OF_RANGE.getMsg();
             }
         }
 
         return null;
+    }
+
+    private boolean isCellOverFlow(int rows, int i, String[] point) {
+        return Integer.valueOf(point[i]) >= rows;
+    }
+
+    private boolean isCellNotNumber(String[] point) {
+        return !NumberUtil.isNumeric(point[0]) || !NumberUtil.isNumeric(point[1]);
+    }
+
+    private boolean isInitialAliveCellInvalid(String[] point) {
+        return point.length == 0 || point.length != 2;
     }
 
 }

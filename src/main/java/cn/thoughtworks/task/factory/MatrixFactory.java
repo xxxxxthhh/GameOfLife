@@ -5,8 +5,20 @@ import cn.thoughtworks.task.service.CheckService;
 
 public class MatrixFactory {
     public Matrix create(String rows, String cols, String command) {
-        CheckService checkService = new CheckService();
+        Matrix matrix = createMatrix(rows, cols, command);
+        if (matrix == null) return null;
 
+        String[] points = command.split(";");
+
+        for (int i = 0; i < points.length; i++) {
+            String[] point = points[i].split(",");
+            matrix.getCell(Integer.valueOf(point[0]), Integer.valueOf(point[1])).setAlive(true);
+        }
+        return matrix;
+    }
+
+    private Matrix createMatrix(String rows, String cols, String command) {
+        CheckService checkService = new CheckService();
         String sizeCheckResult =  checkService.checkSize(rows,cols);
 
         if (sizeCheckResult != null){
@@ -16,7 +28,6 @@ public class MatrixFactory {
 
         int transRows = Integer.valueOf(rows);
         int transCols = Integer.valueOf(cols);
-
         String commandCheckResult = checkService.checkCommand(transRows,transCols, command);
 
         if (commandCheckResult != null){
@@ -24,15 +35,6 @@ public class MatrixFactory {
             return null;
         }
 
-
-        Matrix matrix = new Matrix(transRows, transCols);
-        String[] points = command.split(";");
-
-
-        for (int i = 0; i < points.length; i++) {
-            String[] point = points[i].split(",");
-            matrix.getCell(Integer.valueOf(point[0]), Integer.valueOf(point[1])).setAlive(true);
-        }
-        return matrix;
+        return new Matrix(transRows, transCols);
     }
 }
